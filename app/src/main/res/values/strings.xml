@@ -20,4 +20,16 @@
     <string name="menu_home">Home</string>
     <string name="menu_enter_data">Enter Data</string>
     <string name="menu_report_1">Report 1</string>
+    <string name="enter_data_get_length_button">Get Diagonal Length</string>
+    <string name="empty_field">Field Cannot Be Empty!</string>
+
+    <string-array name="fish_array">
+        <item>Bream</item>
+        <item>Parkki</item>
+        <item>Perch</item>
+        <item>Pike</item>
+        <item>Roach</item>
+        <item>Smelt</item>
+        <item>Whitefish</item>
+    </string-array>
 </resources>
