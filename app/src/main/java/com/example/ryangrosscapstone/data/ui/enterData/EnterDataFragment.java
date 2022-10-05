@@ -20,7 +20,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.ryangrosscapstone.FishSizeClass;
 import com.example.ryangrosscapstone.R;
+import com.example.ryangrosscapstone.DBHandler;
 import com.example.ryangrosscapstone.databinding.FragmentEnterDataBinding;
 
 import org.apache.commons.math3.stat.regression.SimpleRegression;
@@ -34,7 +36,7 @@ public class EnterDataFragment extends Fragment {
 
     private EnterDataViewModel enterDataViewModel;
     private FragmentEnterDataBinding binding;
-
+    private DBHandler dbHandler = new DBHandler(getContext());
     Spinner fishSpinner;
     EditText editTextFishWeight;
     Button enterFishButton;
@@ -42,6 +44,7 @@ public class EnterDataFragment extends Fragment {
 
     String line = "";
     String splitBy = ",";
+    ArrayList<FishSizeClass> fishSizeClassArrayList = new ArrayList<>();
     ArrayList<double[]> collection = new ArrayList<>();
     SimpleRegression regression = new SimpleRegression();
 
@@ -74,12 +77,14 @@ public class EnterDataFragment extends Fragment {
         editTextFishWeight = view.findViewById(R.id.editTextFishWeight);
         enterFishButton = view.findViewById(R.id.fishGetLengthButton);
         displayLengthTextView = view.findViewById(R.id.displayLengthTextView);
+        fishSizeClassArrayList = dbHandler.readFishSizeFromDatabase();
         enterFishButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 if(TextUtils.isEmpty(editTextFishWeight.getText())){
                     editTextFishWeight.setError(getString(R.string.empty_field));
                 } else{
-                    readFromFile(fishSpinner.getSelectedItem().toString());
+                    //readFromFile(fishSpinner.getSelectedItem().toString());
+                    addSelectedFishToCollection(fishSpinner.getSelectedItem().toString());
                     setUpLinearRegression();
                     String displaylengthText = String.valueOf(regression.predict(Integer.parseInt(editTextFishWeight.getText().toString())));
                     displayLengthTextView.setText(displaylengthText);
@@ -106,7 +111,45 @@ public class EnterDataFragment extends Fragment {
         Log.i("PredictTag", String.valueOf(regression.predict(1400)));*/
     }
 
-    public void readFromFile(String fishName){
+    public void addSelectedFishToCollection(String fishSelected)
+    {
+        for (FishSizeClass fish : fishSizeClassArrayList) {
+            if (fishSelected == fish.getFishName()) {
+                double[] arrayFish = {fish.getFishWeight(), fish.getFishDiagonalLength()};
+                collection.add(arrayFish);
+            }
+        }
+    }
+    /*public void sortFishDataByName(ArrayList<FishSizeClass> fishSizeClassArrayList){
+        for (FishSizeClass fish : fishSizeClassArrayList) {
+
+            switch (fish.getFishName()) {
+                case "Bream":
+                    fishFile = fishFileBream;
+                    break;
+                case "Parkki":
+                    fishFile = fishFileParkki;
+                    break;
+                case "Perch":
+                    fishFile = fishFilePerch;
+                    break;
+                case "Pike":
+                    fishFile = fishFilePike;
+                    break;
+                case "Roach":
+                    fishFile = fishFileRoach;
+                    break;
+                case "Smelt":
+                    fishFile = fishFileSmelt;
+                    break;
+                case "Whitefish":
+                    fishFile = fishFileWhitefish;
+                    break;
+            }
+        }
+    }*/
+
+    /*public void readFromFile(String fishName){
         String line = "";
         String splitBy = ",";
         String fishFileBream = "fish_data_bream.csv";
@@ -158,5 +201,5 @@ public class EnterDataFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }
