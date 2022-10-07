@@ -87,7 +87,7 @@ public class EnterDataFragment extends Fragment {
                     String displaylengthText = String.valueOf(fishLengthPrediction);
                     DecimalFormat f = new DecimalFormat("##.00");
                     String formattedValue = f.format(fishLengthPrediction);
-                    displayLengthTextView.setText(formattedValue);
+                    displayLengthTextView.setText(formattedValue + " cm");
                     Integer boxSize = BoxSizeHelper.BoxSelector(fishLengthPrediction);
                     boxSizeTextView.setText("Please use box " + boxSize + " for shipping!");
                 }
