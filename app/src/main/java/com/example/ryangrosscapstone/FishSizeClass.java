@@ -1,15 +1,18 @@
 package com.example.ryangrosscapstone;
 
+import androidx.annotation.Nullable;
+
 public class FishSizeClass {
     private Integer fishId;
     private String fishName;
     private Double fishWeight;
     private Double fishDiagonalLength;
 
-    public FishSizeClass(String fishName, Double fishWeight, Double fishDiagonalLength){
+    public FishSizeClass(String fishName, Double fishWeight, Double fishDiagonalLength, @Nullable Integer fishId){
         this.fishName = fishName;
         this.fishWeight = fishWeight;
         this.fishDiagonalLength = fishDiagonalLength;
+        this.fishId = fishId;
     }
     public Integer getFishId(){
         return fishId;

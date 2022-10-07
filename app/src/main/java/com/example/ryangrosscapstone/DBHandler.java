@@ -44,42 +44,32 @@ public class DBHandler extends SQLiteOpenHelper {
         // an sqlite query and we are
         // setting our column names
         // along with their data types.
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);//TODO:remove later
+        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);//TODO:remove later
         String query = "CREATE TABLE " + TABLE_NAME + " ("
                 + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + NAME_COL + " TEXT,"
                 + WEIGHT_COL + " INTEGER,"
                 + DIAGONAL_LENGTH_COL + " INTEGER)";
 
-        // at last we are calling a exec sql
-        // method to execute above sql query
         db.execSQL(query);
     }
 
     // this method is use to add new course to our sqlite database.
     public void addNewFishSize(FishSizeClass fishSizeClass) {
-
-        // on below line we are creating a variable for
-        // our sqlite database and calling writable method
-        // as we are writing data in our database.
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // on below line we are creating a
-        // variable for content values.
+        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         ContentValues values = new ContentValues();
-
-        // on below line we are passing all values
-        // along with its key and value pair.
         values.put(NAME_COL, fishSizeClass.getFishName());
         values.put(WEIGHT_COL, fishSizeClass.getFishWeight());
         values.put(DIAGONAL_LENGTH_COL, fishSizeClass.getFishDiagonalLength());
 
+        //db.execSQL("Delete from " + TABLE_NAME); //TODO: Remove Later
         // after adding all values we are passing
         // content values to our table.
-        db.insert(TABLE_NAME, null, values);
-
-        // at last we are closing our
-        // database after adding database.
+        if(fishSizeClass.getFishId() == null) {
+            db.insert(TABLE_NAME, null, values);
+        }
         db.close();
     }
 
@@ -92,31 +82,41 @@ public class DBHandler extends SQLiteOpenHelper {
 
     // we have created a new method for reading all the courses.
     public ArrayList<FishSizeClass> readFishSizeFromDatabase() {
-        // on below line we are creating a
-        // database for reading our database.
         SQLiteDatabase db = this.getReadableDatabase();
-
         // on below line we are creating a cursor with query to read data from database.
-        Cursor cursorCourses = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
-
-        // on below line we are creating a new array list.
+        Cursor cursorFishSize = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         ArrayList<FishSizeClass> fishModalArrayList = new ArrayList<>();
 
         // moving our cursor to first position.
-        if (cursorCourses.moveToFirst()) {
+        if (cursorFishSize.moveToFirst()) {
             do {
                 // on below line we are adding the data from cursor to our array list.
-                fishModalArrayList.add(new FishSizeClass(
-                        cursorCourses.getString(2),
-                        cursorCourses.getDouble(3),
-                        cursorCourses.getDouble(4)));
-            } while (cursorCourses.moveToNext());
+                try {
+                    fishModalArrayList.add(new FishSizeClass(
+                            cursorFishSize.getString(1),
+                            cursorFishSize.getDouble(2),
+                            cursorFishSize.getDouble(3),
+                            cursorFishSize.getInt(0)));
+                }catch (Exception ex)
+                {
+                    String message = ex.getMessage();
+                }
+            } while (cursorFishSize.moveToNext());
             // moving our cursor to next.
         }
-        // at last closing our cursor
-        // and returning our array list.
-        cursorCourses.close();
+        cursorFishSize.close();
         return fishModalArrayList;
     }
-
+    public boolean tableNotEmpty() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String count = "SELECT count(*) FROM " + TABLE_NAME;
+        Cursor cursor = db.rawQuery(count, null);
+        cursor.moveToFirst();
+        int tableCount = cursor.getInt(0);
+        if (tableCount > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

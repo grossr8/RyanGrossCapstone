@@ -32,7 +32,6 @@ public class NavigationActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityNavigationBinding binding;
 
-    //ArrayList<double[]> collection = new ArrayList<>();
     ArrayList<FishSizeClass> fishSizeClassArrayList = new ArrayList<FishSizeClass>();
     private DBHandler dbHandler;
 
@@ -65,7 +64,11 @@ public class NavigationActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         dbHandler = new DBHandler(NavigationActivity.this);
-        readFromFile();
+        if(dbHandler.tableNotEmpty()){
+            fishSizeClassArrayList = dbHandler.readFishSizeFromDatabase();
+        }else {
+            readFromFile();
+        }
         setUpLinearRegression();
         addFishDataToDatabase(fishSizeClassArrayList);
 
@@ -90,13 +93,7 @@ public class NavigationActivity extends AppCompatActivity {
 
         for (FishSizeClass fish : fishSizeClassArrayList) {
             regression.addData(fish.getFishWeight(), fish.getFishDiagonalLength());
-
         }
-
-        Log.i("InterceptTag", String.valueOf(regression.getIntercept()));
-        Log.i("SlopeTag", String.valueOf(regression.getSlope()));
-        Log.i("SlopeStdErrTag", String.valueOf(regression.getSlopeStdErr()));
-        Log.i("PredictTag", String.valueOf(regression.predict(1400)));
     }
 
     public void readFromFile(){
@@ -111,7 +108,6 @@ public class NavigationActivity extends AppCompatActivity {
             double diagonalLength = 0;
             while ((line = br.readLine()) != null) {
                 String[] fish = line.split(splitBy);
-                //Log.i("FishInfoFromFileTag", "fish[weight=" + fish[0] + ", diagonal length=" + fish[1] + "]");
                 try {
                     weight = Double.parseDouble(fish[1]);
                     diagonalLength = Double.parseDouble(fish[2]);
@@ -119,71 +115,14 @@ public class NavigationActivity extends AppCompatActivity {
                 {
                     String error = ex.getMessage();
                 }
-
-                //double[] arrayFish = {weight, diagonalLength};
-                FishSizeClass fishSizeClass = new FishSizeClass(fish[0], weight, diagonalLength);
+                FishSizeClass fishSizeClass = new FishSizeClass(fish[0], weight, diagonalLength, null);
                 fishSizeClassArrayList.add(fishSizeClass);
-                //collection.add(arrayFish);
 
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    /*public void readFromFile(String fishName){
-        String line = "";
-        String splitBy = ",";
-        String fishFileBream = "fish_data_bream.csv";
-        String fishFileParkki = "fish_data_parkki.csv";
-        String fishFilePerch = "fish_data_perch.csv";
-        String fishFilePike = "fish_data_pike.csv";
-        String fishFileRoach = "fish_data_roach.csv";
-        String fishFileSmelt = "fish_data_smelt.csv";
-        String fishFileWhitefish = "fish_data_whitefish.csv";
-
-        String fishFile = "fish_data_bream";
-
-
-        switch(fishName){
-            case "Bream":
-                fishFile = fishFileBream;
-                break;
-            case "Parkki":
-                fishFile = fishFileParkki;
-                break;
-            case "Perch":
-                fishFile = fishFilePerch;
-                break;
-            case "Pike":
-                fishFile = fishFilePike;
-                break;
-            case "Roach":
-                fishFile = fishFileRoach;
-                break;
-            case "Smelt":
-                fishFile = fishFileSmelt;
-                break;
-            case "Whitefish":
-                fishFile = fishFileWhitefish;
-                break;
-        }
-        try {
-            // parsing a CSV file into BufferedReader class constructor
-            InputStreamReader inputStream = new InputStreamReader(getContext().getAssets().open(fishFile));
-            BufferedReader br = new BufferedReader(inputStream);
-            while ((line = br.readLine()) != null) {
-                String[] fish = line.split(splitBy);
-                Log.i("FishInfoFromFileTag", "fish[weight=" + fish[0] + ", diagonal length=" + fish[1] + "]");
-                double weight = Double.parseDouble(fish[0]);
-                double diagonalLength = Double.parseDouble(fish[1]);
-                double[] arrayFish = {weight, diagonalLength};
-                collection.add(arrayFish);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
 
     private void addFishDataToDatabase(ArrayList<FishSizeClass> fishArrayList) {
         for (FishSizeClass fish: fishArrayList) {
