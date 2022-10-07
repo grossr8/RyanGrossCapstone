@@ -17,22 +17,30 @@ public class MainActivity extends AppCompatActivity {
 
     String line = "";
     String splitBy = ",";
-    ArrayList<double[]> collection = new ArrayList<>();
+    //ArrayList<double[]> collection = new ArrayList<>();
+    //ArrayList<FishSizeClass> fishSizeClassArrayList = new ArrayList<FishSizeClass>();
+
+    //private DBHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        readFromFile();
-        setUpLinearRegression();
+        //dbHandler = new DBHandler(MainActivity.this);
+        //readFromFile();
+        //setUpLinearRegression();
+        //addFishDataToDatabase(fishSizeClassArrayList);
     }
 
-    private void setUpLinearRegression() {
+
+    /*private void setUpLinearRegression() {
         SimpleRegression regression = new SimpleRegression();
 
         for (double[] fish : collection) {
             regression.addData(fish[0], fish[1]);
+            FishSizeClass fishSizeClass = new FishSizeClass("", fish[0], fish[1]);
+            fishSizeClassArrayList.add(fishSizeClass);
         }
 
         Log.i("InterceptTag", String.valueOf(regression.getIntercept()));
@@ -61,4 +69,10 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    private void addFishDataToDatabase(ArrayList<FishSizeClass> fishArrayList) {
+        for (FishSizeClass fish: fishArrayList) {
+            dbHandler.addNewFishSize(fish);
+        }
+    }*/
 }

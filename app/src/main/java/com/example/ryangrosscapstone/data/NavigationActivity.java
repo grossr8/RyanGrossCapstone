@@ -1,6 +1,7 @@
 package com.example.ryangrosscapstone.data;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
@@ -11,15 +12,28 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.ryangrosscapstone.DBHandler;
+import com.example.ryangrosscapstone.FishSizeClass;
+import com.example.ryangrosscapstone.MainActivity;
 import com.example.ryangrosscapstone.R;
 import com.example.ryangrosscapstone.databinding.ActivityNavigationBinding;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.apache.commons.math3.stat.regression.SimpleRegression;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
 public class NavigationActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityNavigationBinding binding;
+
+    ArrayList<FishSizeClass> fishSizeClassArrayList = new ArrayList<FishSizeClass>();
+    private DBHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +41,7 @@ public class NavigationActivity extends AppCompatActivity {
 
         binding = ActivityNavigationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
         setSupportActionBar(binding.appBarNavigation.toolbar);
         binding.appBarNavigation.fab.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +62,16 @@ public class NavigationActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigation);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        dbHandler = new DBHandler(NavigationActivity.this);
+        if(dbHandler.tableNotEmpty()){
+            fishSizeClassArrayList = dbHandler.readFishSizeFromDatabase();
+        }else {
+            readFromFile();
+        }
+        setUpLinearRegression();
+        addFishDataToDatabase(fishSizeClassArrayList);
+
     }
 
     @Override
@@ -61,5 +86,47 @@ public class NavigationActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigation);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    private void setUpLinearRegression() {
+        SimpleRegression regression = new SimpleRegression();
+
+        for (FishSizeClass fish : fishSizeClassArrayList) {
+            regression.addData(fish.getFishWeight(), fish.getFishDiagonalLength());
+        }
+    }
+
+    public void readFromFile(){
+        String line = "";
+        String splitBy = ",";
+
+        try {
+            // parsing a CSV file into BufferedReader class constructor
+            InputStreamReader inputStream = new InputStreamReader(getAssets().open("fish_raw_data.csv"));
+            BufferedReader br = new BufferedReader(inputStream);
+            double weight = 0;
+            double diagonalLength = 0;
+            while ((line = br.readLine()) != null) {
+                String[] fish = line.split(splitBy);
+                try {
+                    weight = Double.parseDouble(fish[1]);
+                    diagonalLength = Double.parseDouble(fish[2]);
+                } catch(Exception ex)
+                {
+                    String error = ex.getMessage();
+                }
+                FishSizeClass fishSizeClass = new FishSizeClass(fish[0], weight, diagonalLength, null);
+                fishSizeClassArrayList.add(fishSizeClass);
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addFishDataToDatabase(ArrayList<FishSizeClass> fishArrayList) {
+        for (FishSizeClass fish: fishArrayList) {
+            dbHandler.addNewFishSize(fish);
+        }
     }
 }
