@@ -51,4 +51,13 @@
         app:layout_constraintStart_toStartOf="@+id/fishGetLengthButton"
         app:layout_constraintEnd_toEndOf="@+id/fishGetLengthButton"  />
 
+    <TextView
+        android:id="@+id/boxSizeTextView"
+        android:layout_width="250dp"
+        android:layout_height="75dp"
+        android:textSize="25dp"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/displayLengthTextView"
+        app:layout_constraintStart_toStartOf="@+id/displayLengthTextView"
+        app:layout_constraintEnd_toEndOf="@+id/displayLengthTextView"  />
 </androidx.constraintlayout.widget.ConstraintLayout>

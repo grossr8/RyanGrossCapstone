@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.ryangrosscapstone.BoxSizeHelper;
 import com.example.ryangrosscapstone.FishSizeClass;
 import com.example.ryangrosscapstone.R;
 import com.example.ryangrosscapstone.DBHandler;
@@ -30,6 +31,7 @@ import org.apache.commons.math3.stat.regression.SimpleRegression;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -42,7 +44,7 @@ public class EnterDataFragment extends Fragment {
     EditText editTextFishWeight;
     Button enterFishButton;
     TextView displayLengthTextView;
-
+    TextView boxSizeTextView;
     ArrayList<FishSizeClass> fishSizeClassArrayList = new ArrayList<>();
     ArrayList<double[]> collection = new ArrayList<>();
     SimpleRegression regression = new SimpleRegression();
@@ -71,6 +73,7 @@ public class EnterDataFragment extends Fragment {
         editTextFishWeight = view.findViewById(R.id.editTextFishWeight);
         enterFishButton = view.findViewById(R.id.fishGetLengthButton);
         displayLengthTextView = view.findViewById(R.id.displayLengthTextView);
+        boxSizeTextView = view.findViewById(R.id.boxSizeTextView);
         fishSizeClassArrayList = dbHandler.readFishSizeFromDatabase();
         enterFishButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -79,8 +82,14 @@ public class EnterDataFragment extends Fragment {
                 } else{
                     addSelectedFishToCollection(fishSpinner.getSelectedItem().toString());
                     setUpLinearRegression();
-                    String displaylengthText = String.valueOf(regression.predict(Integer.parseInt(editTextFishWeight.getText().toString())));
-                    displayLengthTextView.setText(displaylengthText);
+                    String fishWeightString = editTextFishWeight.getText().toString();
+                    Double fishLengthPrediction = regression.predict(Integer.parseInt(fishWeightString));
+                    String displaylengthText = String.valueOf(fishLengthPrediction);
+                    DecimalFormat f = new DecimalFormat("##.00");
+                    String formattedValue = f.format(fishLengthPrediction);
+                    displayLengthTextView.setText(formattedValue);
+                    Integer boxSize = BoxSizeHelper.BoxSelector(fishLengthPrediction);
+                    boxSizeTextView.setText("Please use box " + boxSize + " for shipping!");
                 }
             }
         });
