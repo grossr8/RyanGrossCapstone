@@ -35,7 +35,6 @@ public class Report1Fragment extends Fragment {
     private FragmentReport1Binding binding;
     private ScatterChart chart;
     private DBHandler dbHandler;
-    ScatterDataSet set5;
     ArrayList<FishSizeClass> fishSizeClassArrayList = new ArrayList<>();
     ArrayList<Entry> arrayValuesBream = new ArrayList<>();
     ArrayList<Entry> arrayValuesParkki = new ArrayList<>();
@@ -106,7 +105,7 @@ public class Report1Fragment extends Fragment {
         // after getting our chart
         // we are setting our chart for vertical and horizontal
         // alignment to top, right and vertical.
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         l.setOrientation(Legend.LegendOrientation.VERTICAL);
 
@@ -145,9 +144,8 @@ public class Report1Fragment extends Fragment {
         Collections.sort(arrayValuesPerch, new EntryXComparator());
         Collections.sort(arrayValuesPike, new EntryXComparator());
         Collections.sort(arrayValuesRoach, new EntryXComparator());
-        //Collections.sort(arrayValuesBream, new EntryXComparator());
-        //Collections.sort(arrayValuesBream, new EntryXComparator());
-
+        Collections.sort(arrayValuesSmelt, new EntryXComparator());
+        Collections.sort(arrayValuesWhitefish, new EntryXComparator());
 
         // create a data set and give it a type
         ScatterDataSet set1 = new ScatterDataSet(arrayValuesBream, "Bream");
@@ -155,6 +153,8 @@ public class Report1Fragment extends Fragment {
         ScatterDataSet set3 = new ScatterDataSet(arrayValuesPerch, "Perch");
         ScatterDataSet set4 = new ScatterDataSet(arrayValuesPike, "Pike");
         ScatterDataSet set5 = new ScatterDataSet(arrayValuesRoach, "Roach");
+        ScatterDataSet set6 = new ScatterDataSet(arrayValuesSmelt, "Smelt");
+        ScatterDataSet set7 = new ScatterDataSet(arrayValuesWhitefish, "Whitefish");
 
         // below line is use to set shape for our point on our graph.
         set1.setScatterShape(ScatterChart.ScatterShape.SQUARE);
@@ -162,6 +162,8 @@ public class Report1Fragment extends Fragment {
         set3.setScatterShape(ScatterChart.ScatterShape.X);
         set4.setScatterShape(ScatterChart.ScatterShape.TRIANGLE);
         set5.setScatterShape(ScatterChart.ScatterShape.CROSS);
+        set6.setScatterShape(ScatterChart.ScatterShape.CHEVRON_DOWN);
+        set7.setScatterShape(ScatterChart.ScatterShape.CHEVRON_UP);
 
         // below line is for setting color to our shape.
         set1.setColor(ColorTemplate.COLORFUL_COLORS[0]);
@@ -169,6 +171,8 @@ public class Report1Fragment extends Fragment {
         set3.setColor(ColorTemplate.COLORFUL_COLORS[2]);
         set4.setColor(ColorTemplate.COLORFUL_COLORS[3]);
         set5.setColor(ColorTemplate.COLORFUL_COLORS[4]);
+        set6.setColor(ColorTemplate.JOYFUL_COLORS[1]);
+        set7.setColor(ColorTemplate.JOYFUL_COLORS[2]);
 
         // below line is for setting color to our point in chart.
         //set2.setScatterShapeHoleColor(ColorTemplate.COLORFUL_COLORS[3]);
@@ -184,21 +188,33 @@ public class Report1Fragment extends Fragment {
         // for our data set of the chart.
         set1.setScatterShapeSize(20f);
         set2.setScatterShapeSize(20f);
-        set3.setScatterShapeSize(40f);
-        set4.setScatterShapeSize(15f);
-        set5.setScatterShapeSize(30f);
+        set3.setScatterShapeSize(20f);
+        set4.setScatterShapeSize(20f);
+        set5.setScatterShapeSize(20f);
+        set6.setScatterShapeSize(20f);
+        set7.setScatterShapeSize(20f);
 
         // in below line we are creating a new array list for our data set.
         ArrayList<IScatterDataSet> dataSets = new ArrayList<>();
 
         // in below line we are adding all
         // data sets to above array list.
-        //Collections.sort(arrayValuesBream, new EntryXComparator());
-        dataSets.add(set1); // add the data sets
+        dataSets.add(set1);
         dataSets.add(set2);
         dataSets.add(set3);
         dataSets.add(set4);
         dataSets.add(set5);
+        dataSets.add(set6);
+        dataSets.add(set7);
+
+        set1.setValueTextSize(10f);
+        set2.setValueTextSize(10f);
+        set3.setValueTextSize(10f);
+        set4.setValueTextSize(10f);
+        set5.setValueTextSize(10f);
+        set6.setValueTextSize(10f);
+        set7.setValueTextSize(10f);
+
         try {
 
         // create a data object with the data sets
@@ -228,9 +244,9 @@ public class Report1Fragment extends Fragment {
             if (fish.getFishName().equalsIgnoreCase("bream")) {
                 arrayValuesBream.add(new Entry(value2, value4));
             }else if(fish.getFishName().equalsIgnoreCase("parkki")){
-                arrayValuesParkki.add(new Entry(value2, value4));//fish.getFishWeight().floatValue(), fish.getFishDiagonalLength().floatValue()));
+                arrayValuesParkki.add(new Entry(value2, value4));
             }else if(fish.getFishName().equalsIgnoreCase("perch")) {
-                arrayValuesPerch.add(new Entry(value2, value4));//fish.getFishWeight().floatValue(), fish.getFishDiagonalLength().floatValue()));
+                arrayValuesPerch.add(new Entry(value2, value4));
             }else if(fish.getFishName().equalsIgnoreCase("pike")){
                 arrayValuesPike.add(new Entry(value2, value4));
             }else if(fish.getFishName().equalsIgnoreCase("roach")){
@@ -240,7 +256,6 @@ public class Report1Fragment extends Fragment {
             }else if(fish.getFishName().equalsIgnoreCase("whitefish")){
                 arrayValuesWhitefish.add(new Entry(value2, value4));
             }
-//            else{}
         }
     }
 
