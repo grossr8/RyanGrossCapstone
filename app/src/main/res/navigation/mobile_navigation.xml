@@ -12,14 +12,19 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_enter_data"
         android:name="com.example.ryangrosscapstone.data.ui.enterData.EnterDataFragment"
         android:label="@string/menu_enter_data"
         tools:layout="@layout/fragment_enter_data" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_report_1"
         android:name="com.example.ryangrosscapstone.data.ui.report1.Report1Fragment"
         android:label="@string/menu_report_1"
         tools:layout="@layout/fragment_report_1" />
+    <fragment
+        android:id="@+id/nav_report_2"
+        android:name="com.example.ryangrosscapstone.data.Report2Fragment"
+        android:label="fragment_report2"
+        tools:layout="@layout/fragment_report2" />
 </navigation>
