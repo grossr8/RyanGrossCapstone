@@ -20,7 +20,9 @@
     <string name="menu_home">Home</string>
     <string name="menu_enter_data">Enter Data</string>
     <string name="enter_data_weight_hint">Enter Weight (grams)</string>
-    <string name="menu_report_1">Report 1</string>
+    <string name="menu_report_1">Total Fish Report</string>
+    <string name="menu_report_2">Total Fish By Species Report</string>
+    <string name="menu_report_3">Total Boxes Report</string>
     <string name="enter_data_get_length_button">Get Diagonal Length</string>
     <string name="empty_field">Field Cannot Be Empty!</string>
 
