@@ -7,12 +7,14 @@ public class FishSizeClass {
     private String fishName;
     private Double fishWeight;
     private Double fishDiagonalLength;
+    private Integer fishBoxSize;
 
-    public FishSizeClass(String fishName, Double fishWeight, Double fishDiagonalLength, @Nullable Integer fishId){
+    public FishSizeClass(String fishName, Double fishWeight, Double fishDiagonalLength, @Nullable Integer fishId, @Nullable Integer fishBoxSize){
         this.fishName = fishName;
         this.fishWeight = fishWeight;
         this.fishDiagonalLength = fishDiagonalLength;
         this.fishId = fishId;
+        this.fishBoxSize = fishBoxSize;
     }
     public Integer getFishId(){
         return fishId;
@@ -41,5 +43,10 @@ public class FishSizeClass {
     public void setFishDiagonalLength(Double fishDiagonalLength){
         this.fishDiagonalLength = fishDiagonalLength;
     }
-
+    public Integer getFishBoxSize(){
+        return fishBoxSize;
+    }
+    public void setFishBoxSize(Integer fishBoxSize){
+        this.fishBoxSize = fishBoxSize;
+    }
 }

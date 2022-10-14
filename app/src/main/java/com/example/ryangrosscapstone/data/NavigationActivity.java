@@ -12,6 +12,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.ryangrosscapstone.BoxSize;
+import com.example.ryangrosscapstone.BoxSizeHelper;
 import com.example.ryangrosscapstone.DBHandler;
 import com.example.ryangrosscapstone.FishSizeClass;
 import com.example.ryangrosscapstone.MainActivity;
@@ -58,10 +60,21 @@ public class NavigationActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         dbHandler = new DBHandler(NavigationActivity.this);
-        if(dbHandler.tableNotEmpty()){
+        dbHandler.dropAllTables(); //TODO: Remove later
+        dbHandler.createTablesIfNotExists(); //TODO: Remove later
+        if(dbHandler.tableNotEmpty(dbHandler.getFishSizeTableName())){
             fishSizeClassArrayList = dbHandler.readFishSizeFromDatabase();
         }else {
             readFromFile();
+        }
+        if(!dbHandler.tableNotEmpty(dbHandler.getBoxSizeTableName())){
+            dbHandler.addNewBoxSize(new BoxSize(1, null));
+            dbHandler.addNewBoxSize(new BoxSize(2, null));
+            dbHandler.addNewBoxSize(new BoxSize(3, null));
+            dbHandler.addNewBoxSize(new BoxSize(4, null));
+            dbHandler.addNewBoxSize(new BoxSize(5, null));
+            dbHandler.addNewBoxSize(new BoxSize(6, null));
+            dbHandler.addNewBoxSize(new BoxSize(7, null));
         }
         setUpLinearRegression();
         addFishDataToDatabase(fishSizeClassArrayList);
@@ -109,7 +122,7 @@ public class NavigationActivity extends AppCompatActivity {
                 {
                     String error = ex.getMessage();
                 }
-                FishSizeClass fishSizeClass = new FishSizeClass(fish[0], weight, diagonalLength, null);
+                FishSizeClass fishSizeClass = new FishSizeClass(fish[0], weight, diagonalLength, null, BoxSizeHelper.BoxSelector(diagonalLength));
                 fishSizeClassArrayList.add(fishSizeClass);
 
             }
