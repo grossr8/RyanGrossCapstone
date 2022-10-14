@@ -121,8 +121,8 @@ public class DBHandler extends SQLiteOpenHelper {
                             cursorFishSize.getString(1),
                             cursorFishSize.getDouble(2),
                             cursorFishSize.getDouble(3),
-                            cursorFishSize.getInt(4),
-                            cursorFishSize.getInt(0)));
+                            cursorFishSize.getInt(0),
+                            cursorFishSize.getInt(4)));
                 }catch (Exception ex)
                 {
                     String message = ex.getMessage();

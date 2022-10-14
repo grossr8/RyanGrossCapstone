@@ -60,8 +60,8 @@ public class NavigationActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         dbHandler = new DBHandler(NavigationActivity.this);
-        dbHandler.dropAllTables(); //TODO: Remove later
-        dbHandler.createTablesIfNotExists(); //TODO: Remove later
+        //dbHandler.dropAllTables(); //TODO: Remove later
+        //dbHandler.createTablesIfNotExists(); //TODO: Remove later
         if(dbHandler.tableNotEmpty(dbHandler.getFishSizeTableName())){
             fishSizeClassArrayList = dbHandler.readFishSizeFromDatabase();
         }else {
