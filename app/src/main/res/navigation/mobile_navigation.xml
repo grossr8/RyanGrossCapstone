@@ -27,4 +27,9 @@
         android:name="com.example.ryangrosscapstone.data.Report2Fragment"
         android:label="fragment_report2"
         tools:layout="@layout/fragment_report2" />
+    <fragment
+        android:id="@+id/nav_report_3"
+        android:name="com.example.ryangrosscapstone.data.Report3Fragment"
+        android:label="fragment_report3"
+        tools:layout="@layout/fragment_report3" />
 </navigation>

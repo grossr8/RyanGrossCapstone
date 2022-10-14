@@ -26,6 +26,16 @@
     <string name="enter_data_get_length_button">Get Diagonal Length</string>
     <string name="empty_field">Field Cannot Be Empty!</string>
 
+    <!--Report 3-->
+    <string name="report3_box1">Box1</string>
+    <string name="report3_box2">Box2</string>
+    <string name="report3_box3">Box3</string>
+    <string name="report3_box4">Box4</string>
+    <string name="report3_box5">Box5</string>
+    <string name="report3_box6">Box6</string>
+    <string name="report3_box7">Box7</string>
+    <string name="report3_percentage_of_boxes_used">Number of Each Box Used for Shipping Fish</string>
+
     <string-array name="fish_array">
         <item>Bream</item>
         <item>Parkki</item>
