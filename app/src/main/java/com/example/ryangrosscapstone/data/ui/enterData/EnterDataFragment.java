@@ -84,12 +84,13 @@ public class EnterDataFragment extends Fragment {
                     setUpLinearRegression();
                     String fishWeightString = editTextFishWeight.getText().toString();
                     Double fishLengthPrediction = regression.predict(Integer.parseInt(fishWeightString));
-                    String displaylengthText = String.valueOf(fishLengthPrediction);
                     DecimalFormat f = new DecimalFormat("##.00");
                     String formattedValue = f.format(fishLengthPrediction);
                     displayLengthTextView.setText(formattedValue + " cm");
                     Integer boxSize = BoxSizeHelper.BoxSelector(fishLengthPrediction);
                     boxSizeTextView.setText("Please use box " + boxSize + " for shipping!");
+                    dbHandler.addNewFishSize(new FishSizeClass(fishSpinner.getSelectedItem().toString(), Double.parseDouble(fishWeightString),
+                            Double.parseDouble(formattedValue), null, boxSize));
                 }
             }
         });

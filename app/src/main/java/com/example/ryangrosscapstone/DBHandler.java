@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class DBHandler extends SQLiteOpenHelper {
 
@@ -66,7 +67,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
         //db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         ContentValues values = new ContentValues();
-        values.put(NAME_COL, fishSizeClass.getFishName());
+        values.put(NAME_COL, fishSizeClass.getFishName().toLowerCase(Locale.ROOT));
         values.put(WEIGHT_COL, fishSizeClass.getFishWeight());
         values.put(DIAGONAL_LENGTH_COL, fishSizeClass.getFishDiagonalLength());
         values.put(FISH_SIZE_BOX_SIZE, fishSizeClass.getFishBoxSize());
