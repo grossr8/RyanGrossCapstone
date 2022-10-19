@@ -99,37 +99,37 @@ public class Report3Fragment extends Fragment {
         // Set the data and color to the pie chart
         pieChart.addPieSlice(
                 new PieModel(
-                        "Bream",
+                        "Box1",
                         Integer.parseInt(tvBox1.getText().toString()),
                         getResources().getColor(R.color.Box1)));
         pieChart.addPieSlice(
                 new PieModel(
-                        "Parkki",
+                        "Box2",
                         Integer.parseInt(tvBox2.getText().toString()),
                         getResources().getColor(R.color.Box2)));
         pieChart.addPieSlice(
                 new PieModel(
-                        "Perch",
+                        "Box3",
                         Integer.parseInt(tvBox3.getText().toString()),
                         getResources().getColor(R.color.Box3)));
         pieChart.addPieSlice(
                 new PieModel(
-                        "Pike",
+                        "Box4",
                         Integer.parseInt(tvBox4.getText().toString()),
                         getResources().getColor(R.color.Box4)));
         pieChart.addPieSlice(
                 new PieModel(
-                        "Roach",
+                        "Box5",
                         Integer.parseInt(tvBox5.getText().toString()),
                         getResources().getColor(R.color.Box5)));
         pieChart.addPieSlice(
                 new PieModel(
-                        "Smelt",
+                        "Box6",
                         Integer.parseInt(tvBox6.getText().toString()),
                         getResources().getColor(R.color.Box6)));
         pieChart.addPieSlice(
                 new PieModel(
-                        "Whitefish",
+                        "Box7",
                         Integer.parseInt(tvBox7.getText().toString()),
                         getResources().getColor(R.color.Box7)));
         pieChart.startAnimation();
