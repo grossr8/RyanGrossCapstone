@@ -51,8 +51,8 @@ public class LoginActivity extends AppCompatActivity {
         final ProgressBar loadingProgressBar = binding.loading;
 
         //delete later
-        usernameEditText.setText("username");
-        passwordEditText.setText("password");
+        //usernameEditText.setText("username");
+        //passwordEditText.setText("password");
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -135,7 +135,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUiWithUser(LoggedInUserView model) {
         String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
         //Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
     }
 
